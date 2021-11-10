@@ -45,16 +45,19 @@ class StaticURLTests(TestCase):
             group=cls.group,
         )
 
-        cls.public_pages = {
+        cls.public_pages = (
             '/',
             f'/profile/{cls.user.username}/',
             f'/posts/{str(cls.post.pk)}/',
-        }
+        )
 
-        cls.private_pages = {
+        cls.private_pages = (
             '/create/',
             f'/posts/{str(cls.post.pk)}/edit/',
-        }
+            f'/posts/{str(cls.post.pk)}/comment/',
+            f'/profile/{cls.user.username}/follow/',
+            f'/profile/{cls.user.username}/unfollow/',
+        )
 
         cls.guest_client = Client()
         cls.authorized_client = Client()
@@ -79,7 +82,7 @@ class StaticURLTests(TestCase):
         for page in self.private_pages:
             with self.subTest(page=page):
                 response = self.guest_client.get(page)
-                self.assertEqual(response.status_code, HTTPStatus.FOUND)
+                self.assertEqual(response.status_code, HTTPStatus.FOUND, f'ошибка в {page}')
 
     def test_unexisting_page_404(self):
         """Несуществующая страница возвращает ошибку 404."""

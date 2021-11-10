@@ -33,8 +33,13 @@ class PostFormTests(TestCase):
             text='Тестовый пост',
             group=cls.group,
         )
-        # Создаем форму, если нужна проверка атрибутов
-        cls.form = PostForm()
+        cls.image = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00'
+            b'\x01\x00\x00\x00\x00\x21\xf9\x04'
+            b'\x01\x0a\x00\x01\x00\x2c\x00\x00'
+            b'\x00\x00\x01\x00\x01\x00\x00\x02'
+            b'\x02\x4c\x01\x00\x3b'
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -50,16 +55,9 @@ class PostFormTests(TestCase):
     def test_create_post(self):
         """Валидная форма создает новую запись с картинкой."""
         posts_count = Post.objects.count()
-        post_image = (
-            b'\x47\x49\x46\x38\x39\x61\x01\x00'
-            b'\x01\x00\x00\x00\x00\x21\xf9\x04'
-            b'\x01\x0a\x00\x01\x00\x2c\x00\x00'
-            b'\x00\x00\x01\x00\x01\x00\x00\x02'
-            b'\x02\x4c\x01\x00\x3b'
-        )
         uploaded = SimpleUploadedFile(
             name='mypic.jpg',
-            content=post_image,
+            content=self.image,
             content_type='image/gif',
         )
         form_data = {

@@ -9,7 +9,7 @@
 
 {% block content %}
 {% include 'posts/includes/switcher.html' %}
-{% cache 20 index_page %}
+{% cache 0 index_page %}
 {% for post in page_obj %}
   <ul>
     <li>

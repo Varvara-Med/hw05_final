@@ -124,8 +124,8 @@ class PaginatorViewsTest(TestCase):
 
         cls.pages_uses_paginator = [
             reverse('posts:index'),
-            reverse('posts:profile', kwargs={'username': 'test_user'}),
-            reverse('posts:group_list', kwargs={'slug': 'test_slug'}),
+            reverse('posts:profile', kwargs={'username': cls.user.username}),
+            reverse('posts:group_list', kwargs={'slug': cls.group.slug}),
         ]
 
     def test_first_page_contains_ten_records(self):
@@ -188,20 +188,22 @@ class FollowTest(TestCase):
 
     def test_follow(self):
         """Авторизированный user может подписываться на author."""
+        counts_follower = Follow.objects.count()
         self.authorized_follower.get(reverse('posts:profile_follow',
                                      args={self.author.username}))
-        counts_follower = Follow.objects.filter(user=self.follower.id,
-                                                author=self.author.id).count()
-        self.assertEqual(counts_follower, 1)
+        follow = Follow.objects.first()
+        self.assertEqual(Follow.objects.count(), counts_follower + 1)
+        self.assertEqual(follow.user, self.follower)
+        self.assertEqual(follow.author, self.author)
 
     def test_unfollow(self):
         """Авторизированный user может отписаться от author."""
         Follow.objects.create(user=self.follower, author=self.author)
+        self.assertEqual(Follow.objects.count(), 1)
         self.authorized_follower.get(reverse('posts:profile_unfollow',
                                              args={self.author.username}))
-        counts_follower = Follow.objects.filter(user=self.follower.id,
-                                                author=self.author.id).count()
-        self.assertEqual(counts_follower, 0)
+        
+        self.assertEqual(Follow.objects.count(), 0)
 
     def test_post_for_follower(self):
         """Новый пост появляется в ленте подписчика."""

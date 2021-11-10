@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.core.cache import cache
 
 from posts.models import Follow, Group, Post
 
@@ -157,9 +158,11 @@ class CacheTest(TestCase):
             author=cls.user,
             text='Тестовый текст',
         )
+        cache.clear()
 
     def test_cache(self):
         """Проверка кеширования гл.стр."""
+        cache.clear()
         response = self.guest_client.get(reverse('posts:index'))
         content_len_before = len(response.content)
 

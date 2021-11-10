@@ -82,7 +82,7 @@ class StaticURLTests(TestCase):
         for page in self.private_pages:
             with self.subTest(page=page):
                 response = self.guest_client.get(page)
-                self.assertEqual(response.status_code, HTTPStatus.FOUND, f'ошибка в {page}')
+                self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_unexisting_page_404(self):
         """Несуществующая страница возвращает ошибку 404."""

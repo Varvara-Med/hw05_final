@@ -2,14 +2,13 @@
 {% load thumbnail %}
 {% load cache %}
 
-
 {% block title %}
   Последние обновления
 {% endblock %}
 
 {% block content %}
+{% cache 20 index_page %}
 {% include 'posts/includes/switcher.html' %}
-{% cache 0 index_page %}
 {% for post in page_obj %}
   <ul>
     <li>

@@ -202,7 +202,6 @@ class FollowTest(TestCase):
         self.assertEqual(Follow.objects.count(), 1)
         self.authorized_follower.get(reverse('posts:profile_unfollow',
                                              args={self.author.username}))
-        
         self.assertEqual(Follow.objects.count(), 0)
 
     def test_post_for_follower(self):
@@ -210,8 +209,8 @@ class FollowTest(TestCase):
         post = Post.objects.create(text='Тестовый текст', author=self.author)
         Follow.objects.create(user=self.follower, author=self.author)
         response = self.authorized_follower.get(reverse('posts:follow_index'))
-        post = response.context['posts'][0]
-        self.assertEqual(post.text, post.text)
+        first_post = response.context['posts'][0]
+        self.assertEqual(first_post, post)
 
     def test_post_not_appears_for_unfollower(self):
         """Новый пост не повяляется в ленте тех, кто НЕ подписан."""

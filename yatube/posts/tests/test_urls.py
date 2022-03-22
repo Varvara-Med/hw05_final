@@ -30,9 +30,7 @@ class StaticURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Создадим запись в БД для проверки доступности:
-        # создадим тестового юзера, тестовую запись группы,
-        # тестовую запись поста
+        """Создадим запись в БД для проверки доступности."""
         cls.user = User.objects.create_user(username='test_user')
         cls.group = Group.objects.create(
             title='Тестовый заголовок',

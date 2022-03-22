@@ -103,9 +103,11 @@ def add_comment(request, post_id):
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user,
-    # находит посты, у которых автор связан через модель Follow
-    # с текущим пользователем
+    """
+    Информация о текущем пользователе доступна в переменной request.user.
+    Находит посты, у которых автор связан через модель Follow
+    с текущим пользователем.
+    """
     posts = Post.objects.filter(author__following__user=request.user)
     page_obj = pages_pagination(request, posts)
     context = {

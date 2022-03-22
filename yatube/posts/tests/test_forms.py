@@ -20,7 +20,6 @@ class PostFormTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Создаем запись в базе данных
         cls.user = User.objects.create_user(username='test_user')
         cls.group = Group.objects.create(
             title='Тестовый заголовок',
@@ -46,7 +45,7 @@ class PostFormTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
-        # Создаем неавторизованный клиент
+        """Создаем неавторизованный клиент."""
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
@@ -73,7 +72,7 @@ class PostFormTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertRedirects(response, reverse('posts:profile',
                              kwargs={'username': 'test_user'}))
-        # Проверяем, увеличилось ли число постов
+        """Проверяем, увеличилось ли число постов."""
         self.assertEqual(Post.objects.count(), posts_count + 1)
         post = Post.objects.first()
         self.assertEqual(post.text, form_data['text'])

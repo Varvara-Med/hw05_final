@@ -39,7 +39,6 @@ class PostPagesTests(TestCase):
 
     def test_post_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
-        # Собираем в словарь пары "reverse(name): имя_html_шаблона"
         templates_pages_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list', kwargs={'slug': self.group.slug}):

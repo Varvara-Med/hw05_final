@@ -14,7 +14,7 @@ class PostPagesTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Создадим запись в БД:тестового юзера, группу и пост
+        """Создадим запись в БД:тестового юзера, группу и пост."""
         cls.user = User.objects.create_user(username='test_author')
         cls.group = Group.objects.create(
             title='Тестовая группа',
@@ -36,7 +36,7 @@ class PostPagesTests(TestCase):
         cls.authorized_client = Client()
         cls.authorized_client.force_login(cls.user)
 
-# Проверяем, что при обращении к name вызывается соответствующий HTML-шаблон
+
     def test_post_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         # Собираем в словарь пары "reverse(name): имя_html_шаблона"
@@ -100,7 +100,7 @@ class PostPagesTests(TestCase):
 
 
 class PaginatorViewsTest(TestCase):
-    # Здесь создаются фикстуры: клиент и 13 тестовых записей.
+    """Здесь создаются фикстуры: клиент и 13 тестовых записей."""
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -134,7 +134,7 @@ class PaginatorViewsTest(TestCase):
         for reverse_page in self.pages_uses_paginator:
             with self.subTest(reverse_page=reverse_page):
                 response = self.client.get(reverse_page)
-        # Проверка: количество постов на первой странице равно 10.
+        """Проверка: количество постов на первой странице равно 10."""
                 self.assertEqual(len(
                     response.context['page_obj']), paginate_by)
 
@@ -143,7 +143,7 @@ class PaginatorViewsTest(TestCase):
         for reverse_page in self.pages_uses_paginator:
             with self.subTest(reverse_page=reverse_page):
                 response = self.client.get(reverse_page + '?page=2')
-        # Проверка: на второй странице должно быть 5 постов.
+        """Проверка: на второй странице должно быть 5 постов."""
                 self.assertEqual(
                     len(response.context['page_obj']), paginate_by_five,)
 

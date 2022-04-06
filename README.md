@@ -4,10 +4,10 @@
 подписываться на понравившихся авторов и отмечать любимые статьи.
 
 ### Технологии
-*Python 3.7  
-*Django Framework  
-*HTML  
-*CSS (Bootstrap 3)
+* Python 3.7  
+* Django Framework  
+* HTML  
+* CSS (Bootstrap 3)
 
 ### Запуск проекта в dev-режиме
 - Разверните виртуальное окружение python -m venv venv
